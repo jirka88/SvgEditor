@@ -1,14 +1,33 @@
 package svgeditor;
 
+import svgeditor.data.ElipseData;
+import svgeditor.data.RectangleData;
+import svgeditor.data.GraphicsData;
+import svgeditor.graphics.Elipse;
+import svgeditor.graphics.Rectangle;
 import svgeditor.panels.RenderPanel;
 import svgeditor.render.Render;
+import svgeditor.table.TableAllGraphics;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class MainFrame extends JFrame {
-    private final JTabbedPane tabsPane;
+    private final JPanel mainPanel;
+    private final JPanel leftPanel;
+    private final RenderPanel graphicPanel;
+    private final TableAllGraphics tableAllGraphics;
     public MainFrame() {
+        Render data = new Render();
+        JTable tableGraphics = new JTable();
+        graphicPanel = new RenderPanel(data);
+        tableAllGraphics = new TableAllGraphics(data, graphicPanel, tableGraphics);
+        tableAllGraphics.setModel(new GraphicsData(data));
+
         setTitle("SvgEditor");
         setVisible(true);
         setBackground(Color.white);
@@ -16,11 +35,16 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        tabsPane = new JTabbedPane();
-        add(tabsPane);
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
 
-        Render render = new Render();
-        tabsPane.addTab("Vykreslení", new RenderPanel(render));
+        leftPanel = new JPanel();
+        leftPanel.setLayout(new GridLayout(2,1));
+        leftPanel.add(tableAllGraphics);
+        leftPanel.add(tableGraphics);
 
+        mainPanel.add(leftPanel, BorderLayout.WEST);
+        mainPanel.add(graphicPanel, BorderLayout.CENTER);
+        add(mainPanel);
     }
 }

@@ -8,8 +8,7 @@ public class Rectangle implements Geometry{
     private double width = 0;
     private double height = 0;
     private String backgroundColor = "";
-    private float strokeWidth = 0;
-
+    private float strokeWidth = 0f;
     private String strokeColor = "";
 
     /**
@@ -52,8 +51,63 @@ public class Rectangle implements Geometry{
 
     @Override
     public void Draw(Graphics2D g) {
-        g.drawRect((int)this.x, (int)this.y,(int)this.width, (int)this.height);
         g.setColor(Color.decode(this.strokeColor));
         g.setStroke(new BasicStroke(this.strokeWidth));
+        g.drawRect((int)this.x, (int)this.y,(int)this.width, (int)this.height);
+    }
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public float getStrokeWidth() {
+        return strokeWidth;
+    }
+
+    public String getStrokeColor() {
+        return strokeColor;
+    }
+
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public void setStrokeWidth(float strokeWidth) {
+        this.strokeWidth = strokeWidth;
+    }
+
+    public void setStrokeColor(String strokeColor) {
+        this.strokeColor = strokeColor;
     }
 }
