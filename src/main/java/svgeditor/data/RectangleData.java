@@ -1,16 +1,18 @@
 package svgeditor.data;
-
 import svgeditor.graphics.Rectangle;
 import svgeditor.panels.RenderPanel;
-
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class RectangleData extends AbstractTableModel {
     Rectangle data;
     RenderPanel panel;
+    private final String[] columnNames = {"Index", "Tvar"};
 
     /**
      * Vytvoří tabulka s daty
@@ -32,7 +34,6 @@ public class RectangleData extends AbstractTableModel {
     public int getColumnCount() {
         return 2;
     }
-
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         if(columnIndex == 1) {

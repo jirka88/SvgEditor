@@ -40,9 +40,8 @@ public class MainFrame extends JFrame {
 
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridLayout(2,1));
-        leftPanel.add(tableAllGraphics);
+        leftPanel.add(new JScrollPane(tableAllGraphics));
         leftPanel.add(tableGraphics);
-
         mainPanel.add(leftPanel, BorderLayout.WEST);
         mainPanel.add(graphicPanel, BorderLayout.CENTER);
         add(mainPanel);

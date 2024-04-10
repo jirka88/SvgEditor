@@ -26,7 +26,7 @@ public class GraphicsData extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if (columnIndex == 0) {
-            return render.getList().indexOf(render.getList().get(rowIndex)) + 1;
+            return ++rowIndex;
         }
         if (columnIndex == 1) {
             return render.getList().get(rowIndex).getClass().getSimpleName();
