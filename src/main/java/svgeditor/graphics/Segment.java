@@ -1,13 +1,24 @@
 package svgeditor.graphics;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.awt.*;
-
+@XmlRootElement(name="segment")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Segment implements Geometry{
+    @XmlAttribute
     private double x =0;
+    @XmlAttribute
     private double y =0;
+    @XmlAttribute
     private double x2 = 0;
+    @XmlAttribute
     private double y2 = 0;
+    @XmlAttribute
     private float width = 0;
+    @XmlAttribute
     private String color = "";
 
     /**
@@ -26,6 +37,9 @@ public class Segment implements Geometry{
         this.y2 = y2;
         this.width = width;
         this.color = color;
+    }
+
+    public Segment() {
     }
 
     @Override

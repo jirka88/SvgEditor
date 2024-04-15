@@ -10,6 +10,8 @@ import svgeditor.panels.RenderPanel;
 import svgeditor.render.Render;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -31,9 +33,9 @@ public class TableAllGraphics extends JTable {
         this.data = data;
         this.graphicPanel = graphicPanel;
         this.tableGraphics = tableGraphics;
-        addMouseListener(new MouseAdapter() {
+        getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void valueChanged(ListSelectionEvent e) {
                 selectedRow = getSelectedRow();
                 switch (data.getList().get(selectedRow).getClass().getSimpleName().toLowerCase()) {
                     case "rectangle":

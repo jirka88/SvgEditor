@@ -1,14 +1,26 @@
 package svgeditor.graphics;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.awt.*;
-
+@XmlRootElement(name="rectangle")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Rectangle implements Geometry{
+    @XmlAttribute
     private double x = 0;
+    @XmlAttribute
     private double y = 0;
+    @XmlAttribute
     private double width = 0;
+    @XmlAttribute
     private double height = 0;
+    @XmlAttribute(name="background-color")
     private String backgroundColor = "";
+    @XmlAttribute(name="stroke-width")
     private float strokeWidth = 0f;
+    @XmlAttribute(name="stroke-color")
     private String strokeColor = "";
 
     /**
@@ -47,6 +59,9 @@ public class Rectangle implements Geometry{
         this.backgroundColor = backgroundColor;
         this.strokeWidth = strokeWidth;
         this.strokeColor = strokeColor;
+    }
+
+    public Rectangle() {
     }
 
     @Override

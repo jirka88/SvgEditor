@@ -1,14 +1,27 @@
 package svgeditor.graphics;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.awt.*;
 
+@XmlRootElement(name="ellipse")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Elipse implements Geometry{
+    @XmlAttribute
     private double x = 0;
+    @XmlAttribute
     private double y = 0;
+    @XmlAttribute
     private double width = 0;
+    @XmlAttribute
     private double height = 0;
+    @XmlAttribute(name="background-color")
     private String backgroundColor = "";
+    @XmlAttribute(name="stroke-width")
     private float strokeWidth = 0;
+    @XmlAttribute(name="stroke-color")
     private String strokeColor = "";
 
     /**
@@ -38,6 +51,9 @@ public class Elipse implements Geometry{
         this.strokeWidth = strokeWidth;
         this.backgroundColor = backgroundColor;
         this.strokeColor = strokeColor;
+    }
+
+    public Elipse() {
     }
 
     @Override

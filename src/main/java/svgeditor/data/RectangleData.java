@@ -1,6 +1,8 @@
 package svgeditor.data;
 import svgeditor.graphics.Rectangle;
 import svgeditor.panels.RenderPanel;
+
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import java.lang.reflect.Field;
@@ -102,6 +104,7 @@ public class RectangleData extends AbstractTableModel {
                     default:
                         throw new IllegalArgumentException("Neplatný index řádku: " + rowIndex);
                 }
+
             }
             catch (Exception e) {
                 showMessageDialog(null, "Špatně zadaný vstup!");

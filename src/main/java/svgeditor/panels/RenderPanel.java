@@ -12,6 +12,11 @@ public class RenderPanel extends JPanel {
     public RenderPanel(Render render) {
         this.render = render;
     }
+
+    public void setRender(Render render) {
+        this.render = render;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
