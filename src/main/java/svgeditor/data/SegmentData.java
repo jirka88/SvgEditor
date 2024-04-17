@@ -86,7 +86,7 @@ public class SegmentData extends AbstractTableModel {
                         data.setWidth(Float.parseFloat(aValue.toString()));
                         break;
                     case 5:
-                    data.setColor(aValue.toString());
+                        data.setColor(aValue.toString());
                         break;
                     default:
                         throw new IllegalArgumentException("Neplatný index řádku: " + rowIndex);

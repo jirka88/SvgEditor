@@ -29,6 +29,10 @@ public class Render {
     public List<Geometry> getList() {
         return list;
     }
-
-
+    public void addValueToList(Geometry g) {
+        list.add(g);
+    }
+    public void setPaintList(List<Geometry> list) {
+        this.list = list;
+    }
 }

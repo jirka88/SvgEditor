@@ -19,7 +19,7 @@ public class Segment implements Geometry{
     @XmlAttribute
     private float width = 0;
     @XmlAttribute
-    private String color = "";
+    private String color = "#000000";
 
     /**
      * Vytvoří úsečku

@@ -7,12 +7,12 @@ public class TextArea extends JTextArea {
     Render data;
     public TextArea(Render data) {
         this.data = data;
-        setRows(data.getList().size() + 1);
+        setRows(15);
         setColumns(50);
         append(XmlUtils.getXml(this.data));
     }
     public void setData(Render data) {
-        append(XmlUtils.getXml(this.data));
+        setText(XmlUtils.getXml(data));
     }
 
 }
