@@ -1,12 +1,14 @@
 package svgeditor.panels;
 
 import svgeditor.components.TextArea;
+import svgeditor.data.GraphicsData;
 import svgeditor.data.PropertiesData;
 import svgeditor.graphics.Elipse;
 import svgeditor.graphics.Geometry;
 import svgeditor.graphics.Rectangle;
 import svgeditor.graphics.Segment;
 import svgeditor.render.Render;
+import svgeditor.table.TableAllGraphics;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +22,7 @@ public class RenderPanel extends JPanel {
     private PropertiesData propertiesData;
     private Point startPoint, endPoint;
     private TextArea textArea;
+    private TableAllGraphics tableAllGraphics;
     int width, height;
     public RenderPanel(Render render, TextArea textArea) {
         this.render = render;
@@ -45,6 +48,7 @@ public class RenderPanel extends JPanel {
                             startPoint = e.getPoint();
                         }
                         textArea.setData(render);
+                        tableAllGraphics.setModel(new GraphicsData(render));
                         return;
                     }
                     startPoint = e.getPoint();
@@ -66,6 +70,7 @@ public class RenderPanel extends JPanel {
                             Elipse elipse= new Elipse(Math.min(startPoint.x, endPoint.x), Math.min(startPoint.y, endPoint.y), width, height, propertiesData.getWidth(), propertiesData.getColor());
                             render.addValueToList(elipse);
                         }
+                        tableAllGraphics.setModel(new GraphicsData(render));
                         repaint();
                     }
                 }
@@ -87,9 +92,10 @@ public class RenderPanel extends JPanel {
     public void setRender(Render render) {
         this.render = render;
     }
-    public void setPaint(Class<?> d, PropertiesData propertiesData) {
+    public void setPaint(Class<?> d, PropertiesData propertiesData, TableAllGraphics tableAllGraphics) {
         newElement = d;
         this.propertiesData = propertiesData;
+        this.tableAllGraphics = tableAllGraphics;
     }
 
     public void setNewElement(Class<?> newElement) {

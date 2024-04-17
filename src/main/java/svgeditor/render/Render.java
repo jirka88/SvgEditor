@@ -35,4 +35,7 @@ public class Render {
     public void setPaintList(List<Geometry> list) {
         this.list = list;
     }
+    public void setPaintList(Render list) {
+        this.list = list.getList();
+    }
 }

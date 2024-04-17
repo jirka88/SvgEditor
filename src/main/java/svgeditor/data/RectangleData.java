@@ -1,6 +1,7 @@
 package svgeditor.data;
 import svgeditor.graphics.Rectangle;
 import svgeditor.panels.RenderPanel;
+import svgeditor.render.Render;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
