@@ -126,7 +126,7 @@ public class MainFrame extends JFrame {
         });
         disablePaint.addActionListener(e -> {
             graphicPanel.setNewElement(null);
-            properties.setVisible(false);
+            properties.setModel(new DefaultTableModel());
             disablePaint.setVisible(false);
         });
 
@@ -189,7 +189,6 @@ public class MainFrame extends JFrame {
         tableGraphics.setModel(new DefaultTableModel());
         propertiesData = new PropertiesData();
         properties.setModel(propertiesData);
-        properties.setVisible(true);
         graphicPanel.setPaint(element, propertiesData, tableAllGraphics);
         disablePaint.setVisible(true);
     }
