@@ -37,6 +37,7 @@ public class MainFrame extends JFrame {
     private final JButton makeElipse;
     private final JButton disablePaint;
     private final JButton importBtn;
+    private final JButton disabledXml;
     private final JComboBox<String> importSvg;
     private final JPanel toolbar;
     private final JPanel toolbarTable;
@@ -46,6 +47,7 @@ public class MainFrame extends JFrame {
     private int selectedIndex = 0;
     private final JTable tableGraphics;
     private final String[] choices = {"do XML", "do JSON"};
+    private boolean disabled = false;
     public MainFrame() {
         //SET WINDOW
         setTitle("SvgEditor");
@@ -59,7 +61,23 @@ public class MainFrame extends JFrame {
         tableGraphics = new JTable();
         TextArea XML = new TextArea(data);
 
-        //IMPORT - EXPORT
+        //IMPORT - EXPORT a DISABLED XML
+        disabledXml = new JButton("Vypnout XML");
+        disabledXml.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!disabled) {
+                    bottomPanel.setVisible(disabled);
+                    disabledXml.setText("Zapnout XML");
+                    disabled = true;
+                }
+                else {
+                    bottomPanel.setVisible(disabled);
+                    disabledXml.setText("Vypnout XML");
+                    disabled = false;
+                }
+            }
+        });
         saving = new JPanel();
         saving.setBackground(Color.WHITE);
         importBtn = new JButton("Import");
@@ -70,7 +88,6 @@ public class MainFrame extends JFrame {
                 if (!outputFolder.exists()) {
                     outputFolder.mkdirs();
                 }
-
                 if(selectedIndex == 0) {
                     try {
                         FileWriter myWriter = new FileWriter("output/data.xml");
@@ -92,6 +109,7 @@ public class MainFrame extends JFrame {
                 selectedIndex = importSvg.getSelectedIndex();
             }
         });
+        saving.add(disabledXml);
         saving.add(importBtn);
         saving.add(importSvg);
 
@@ -105,7 +123,7 @@ public class MainFrame extends JFrame {
         grapgicTools.setPreferredSize(new Dimension(200,  100));
         graphicPanel = new RenderPanel(data, XML);
 
-        tableAllGraphics = new TableAllGraphics(data, graphicPanel, tableGraphics);
+        tableAllGraphics = new TableAllGraphics(data, graphicPanel, tableGraphics, XML);
         tableAllGraphics.setModel(new GraphicsData(data));
 
         disablePaint = new JButton("Zruš výběr");

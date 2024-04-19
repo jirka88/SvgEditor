@@ -1,7 +1,10 @@
 package svgeditor.data;
 
+import svgeditor.Utils.XmlUtils;
+import svgeditor.components.TextArea;
 import svgeditor.graphics.Segment;
 import svgeditor.panels.RenderPanel;
+import svgeditor.render.Render;
 
 import javax.swing.table.AbstractTableModel;
 import java.lang.reflect.Field;
@@ -9,12 +12,16 @@ import java.lang.reflect.Field;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class SegmentData extends AbstractTableModel {
-    Segment data;
-    RenderPanel panel;
+    private Segment data;
+    private RenderPanel panel;
+    private TextArea textArea;
+    private Render dataList;
 
-    public SegmentData(Segment data, RenderPanel panel) {
+    public SegmentData(Segment data, RenderPanel panel, TextArea textArea, Render dataList) {
         this.data = data;
         this.panel = panel;
+        this.textArea = textArea;
+        this.dataList = dataList;
     }
 
     @Override
@@ -95,6 +102,7 @@ public class SegmentData extends AbstractTableModel {
             catch (Exception e) {
                 showMessageDialog(null, "Špatně zadaný vstup!");
             }
+            textArea.setData(dataList);
             panel.repaint();
         }
     }

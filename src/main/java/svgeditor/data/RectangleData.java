@@ -1,4 +1,5 @@
 package svgeditor.data;
+import svgeditor.components.TextArea;
 import svgeditor.graphics.Rectangle;
 import svgeditor.panels.RenderPanel;
 import svgeditor.render.Render;
@@ -13,19 +14,23 @@ import java.util.Arrays;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class RectangleData extends AbstractTableModel {
-    Rectangle data;
-    RenderPanel panel;
+    private Rectangle data;
+    private RenderPanel panel;
     private final String[] columnNames = {"Index", "Tvar"};
+    private TextArea textArea;
+    private Render dataList;
 
     /**
      * Vytvoří tabulka s daty
      * @param data
      * @param panel
      */
-    public RectangleData(Rectangle data, RenderPanel panel) {
+    public RectangleData(Rectangle data, RenderPanel panel, TextArea textArea, Render dataList) {
         int count = 0;
         this.data = data;
         this.panel = panel;
+        this.textArea = textArea;
+        this.dataList = dataList;
     }
 
     @Override
@@ -110,6 +115,7 @@ public class RectangleData extends AbstractTableModel {
             catch (Exception e) {
                 showMessageDialog(null, "Špatně zadaný vstup!");
             }
+            textArea.setData(dataList);
             panel.repaint();
         }
     }

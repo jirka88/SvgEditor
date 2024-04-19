@@ -1,5 +1,6 @@
 package svgeditor.table;
 
+import svgeditor.components.TextArea;
 import svgeditor.data.ElipseData;
 import svgeditor.data.RectangleData;
 import svgeditor.data.SegmentData;
@@ -22,6 +23,7 @@ public class TableAllGraphics extends JTable {
     private Render data;
     private RenderPanel graphicPanel;
     private JTable tableGraphics;
+    private TextArea textArea;
 
     /**
      * @param data          data co má načíst
@@ -29,23 +31,24 @@ public class TableAllGraphics extends JTable {
      * @param tableGraphics tabulka, která bude obsahovat data určitého obrazce
      */
 
-    public TableAllGraphics(Render data, RenderPanel graphicPanel, JTable tableGraphics) {
+    public TableAllGraphics(Render data, RenderPanel graphicPanel, JTable tableGraphics, TextArea textArea) {
         this.data = data;
         this.graphicPanel = graphicPanel;
         this.tableGraphics = tableGraphics;
+        this.textArea = textArea;
         getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 selectedRow = getSelectedRow();
                 switch (data.getList().get(selectedRow).getClass().getSimpleName().toLowerCase()) {
                     case "rectangle":
-                        tableGraphics.setModel(new RectangleData((Rectangle) data.getList().get(selectedRow), graphicPanel));
+                        tableGraphics.setModel(new RectangleData((Rectangle) data.getList().get(selectedRow), graphicPanel, textArea, data));
                         break;
                     case "elipse":
-                        tableGraphics.setModel(new ElipseData((Elipse) data.getList().get(selectedRow), graphicPanel));
+                        tableGraphics.setModel(new ElipseData((Elipse) data.getList().get(selectedRow), graphicPanel, textArea, data));
                         break;
                     case "segment":
-                        tableGraphics.setModel(new SegmentData((Segment) data.getList().get(selectedRow), graphicPanel));
+                        tableGraphics.setModel(new SegmentData((Segment) data.getList().get(selectedRow), graphicPanel, textArea, data));
                         break;
                     default:
                         showMessageDialog(null, "Nastala chyba!");

@@ -1,8 +1,10 @@
 package svgeditor.data;
 
+import svgeditor.components.TextArea;
 import svgeditor.graphics.Elipse;
 import svgeditor.graphics.Rectangle;
 import svgeditor.panels.RenderPanel;
+import svgeditor.render.Render;
 
 import javax.swing.table.AbstractTableModel;
 import java.lang.reflect.Field;
@@ -10,18 +12,22 @@ import java.lang.reflect.Field;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class ElipseData extends AbstractTableModel {
-    Elipse data;
-    RenderPanel panel;
+    private Elipse data;
+    private RenderPanel panel;
+    private TextArea textArea;
+    private Render dataList;
 
     /**
      * Vytvoří tabulka s daty
      * @param data
      * @param panel
      */
-    public ElipseData(Elipse data, RenderPanel panel) {
+    public ElipseData(Elipse data, RenderPanel panel, TextArea textArea, Render dataList) {
         int count = 0;
         this.data = data;
         this.panel = panel;
+        this.textArea = textArea;
+        this.dataList = dataList;
     }
     @Override
     public int getRowCount() {
@@ -105,6 +111,7 @@ public class ElipseData extends AbstractTableModel {
             catch (Exception e) {
                 showMessageDialog(null, "Špatně zadaný vstup!");
             }
+            textArea.setData(dataList);
             panel.repaint();
         }
     }
