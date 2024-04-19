@@ -206,6 +206,9 @@ public class MainFrame extends JFrame {
     private void setProperties(Class<?> element) {
         tableGraphics.setModel(new DefaultTableModel());
         propertiesData = new PropertiesData();
+        if(element.getSimpleName().equals("Segment")) {
+            propertiesData = new PropertiesData(new Segment());
+        }
         properties.setModel(propertiesData);
         graphicPanel.setPaint(element, propertiesData, tableAllGraphics);
         disablePaint.setVisible(true);
