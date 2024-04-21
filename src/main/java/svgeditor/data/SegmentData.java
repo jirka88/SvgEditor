@@ -102,6 +102,7 @@ public class SegmentData extends AbstractTableModel {
             catch (Exception e) {
                 showMessageDialog(null, "Špatně zadaný vstup!");
             }
+            XmlUtils.isEdited = false;
             textArea.setData(dataList);
             panel.repaint();
         }

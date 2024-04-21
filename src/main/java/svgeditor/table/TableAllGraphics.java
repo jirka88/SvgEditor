@@ -11,10 +11,7 @@ import svgeditor.panels.RenderPanel;
 import svgeditor.render.Render;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -36,10 +33,9 @@ public class TableAllGraphics extends JTable {
         this.graphicPanel = graphicPanel;
         this.tableGraphics = tableGraphics;
         this.textArea = textArea;
-        getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                selectedRow = getSelectedRow();
+        getSelectionModel().addListSelectionListener(e -> {
+            selectedRow = getSelectedRow();
+            if(selectedRow != -1) {
                 switch (data.getList().get(selectedRow).getClass().getSimpleName().toLowerCase()) {
                     case "rectangle":
                         tableGraphics.setModel(new RectangleData((Rectangle) data.getList().get(selectedRow), graphicPanel, textArea, data));
@@ -57,5 +53,4 @@ public class TableAllGraphics extends JTable {
             }
         });
     }
-
 }

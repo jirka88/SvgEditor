@@ -10,6 +10,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 public class XmlUtils {
+    public static Boolean isEdited = true;
     public static String getXml(Render data) {
         try {
             JAXBContext context = JAXBContext.newInstance(Render.class);

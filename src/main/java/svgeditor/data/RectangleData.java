@@ -1,4 +1,5 @@
 package svgeditor.data;
+import svgeditor.Utils.XmlUtils;
 import svgeditor.components.TextArea;
 import svgeditor.graphics.Rectangle;
 import svgeditor.panels.RenderPanel;
@@ -26,7 +27,6 @@ public class RectangleData extends AbstractTableModel {
      * @param panel
      */
     public RectangleData(Rectangle data, RenderPanel panel, TextArea textArea, Render dataList) {
-        int count = 0;
         this.data = data;
         this.panel = panel;
         this.textArea = textArea;
@@ -115,6 +115,7 @@ public class RectangleData extends AbstractTableModel {
             catch (Exception e) {
                 showMessageDialog(null, "Špatně zadaný vstup!");
             }
+            XmlUtils.isEdited = false;
             textArea.setData(dataList);
             panel.repaint();
         }

@@ -1,8 +1,8 @@
 package svgeditor.data;
 
+import svgeditor.Utils.XmlUtils;
 import svgeditor.components.TextArea;
 import svgeditor.graphics.Elipse;
-import svgeditor.graphics.Rectangle;
 import svgeditor.panels.RenderPanel;
 import svgeditor.render.Render;
 
@@ -23,7 +23,6 @@ public class ElipseData extends AbstractTableModel {
      * @param panel
      */
     public ElipseData(Elipse data, RenderPanel panel, TextArea textArea, Render dataList) {
-        int count = 0;
         this.data = data;
         this.panel = panel;
         this.textArea = textArea;
@@ -111,6 +110,7 @@ public class ElipseData extends AbstractTableModel {
             catch (Exception e) {
                 showMessageDialog(null, "Špatně zadaný vstup!");
             }
+            XmlUtils.isEdited = false;
             textArea.setData(dataList);
             panel.repaint();
         }

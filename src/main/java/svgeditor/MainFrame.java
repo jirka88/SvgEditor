@@ -178,6 +178,7 @@ public class MainFrame extends JFrame {
                 tableGraphics.setModel(new DefaultTableModel());
                 Render d = XmlUtils.getImage(XML.getText());
                 data.setPaintList(d);
+                tableAllGraphics.setModel(new GraphicsData(data));
                 graphicPanel.repaint();
             }
 
@@ -210,7 +211,7 @@ public class MainFrame extends JFrame {
             propertiesData = new PropertiesData(new Segment());
         }
         properties.setModel(propertiesData);
-        graphicPanel.setPaint(element, propertiesData, tableAllGraphics);
+        graphicPanel.setPaint(element, propertiesData);
         disablePaint.setVisible(true);
     }
 }
