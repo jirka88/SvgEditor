@@ -35,12 +35,13 @@ public class MainFrame extends JFrame {
     private final RenderPanel graphicPanel;
     private final TableAllGraphics tableAllGraphics;
     private final JToolBar grapgicTools;
-    private final JButton makeSegment;
-    private final JButton makeRectangle;
-    private final JButton makeElipse;
-    private final JButton disablePaint;
-    private final JButton importBtn;
-    private final JButton disabledXml;
+    private final JButton makeSegmentBtn;
+    private final JButton makeRectangleBtn;
+    private final JButton makeElipseBtn;
+    private final JButton disablePaintBtn;
+    private final JButton exportBtn;
+    //private final JButton importBtn;
+    private final JButton disabledXmlBtn;
     private final JComboBox<String> importSvg;
     private final JPanel toolbar;
     private final JPanel toolbarTable;
@@ -66,28 +67,28 @@ public class MainFrame extends JFrame {
         TextArea XML = new TextArea(data);
 
         //IMPORT - EXPORT a DISABLED XML
-        disabledXml = new JButton("Vypnout XML");
-        disabledXml.addActionListener(new ActionListener() {
+        disabledXmlBtn = new JButton("Vypnout XML");
+        disabledXmlBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!disabled) {
                     bottomPanel.setVisible(disabled);
-                    disabledXml.setText("Zapnout XML");
+                    disabledXmlBtn.setText("Zapnout XML");
                     disabled = true;
                 } else {
                     bottomPanel.setVisible(disabled);
-                    disabledXml.setText("Vypnout XML");
+                    disabledXmlBtn.setText("Vypnout XML");
                     disabled = false;
                 }
             }
         });
         saving = new JPanel();
         saving.setBackground(Color.WHITE);
-        importBtn = new JButton("Import");
+        exportBtn = new JButton("Export");
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("XML OR JSON", "xml", "json");
         fileChooser.setFileFilter(filter);
-        importBtn.addActionListener(new ActionListener() {
+        exportBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int userSelection = fileChooser.showSaveDialog(graphicPanel);
@@ -123,8 +124,8 @@ public class MainFrame extends JFrame {
                 selectedIndex = importSvg.getSelectedIndex();
             }
         });
-        saving.add(disabledXml);
-        saving.add(importBtn);
+        saving.add(disabledXmlBtn);
+        saving.add(exportBtn);
         saving.add(importSvg);
 
         toolbarTable = new JPanel();
@@ -140,26 +141,26 @@ public class MainFrame extends JFrame {
         tableAllGraphics = new TableAllGraphics(data, graphicPanel, tableGraphics, XML);
         tableAllGraphics.setModel(new GraphicsData(data));
 
-        disablePaint = new JButton("Zruš výběr");
-        disablePaint.setVisible(false);
-        makeSegment = new JButton("Úsečka");
-        makeSegment.addActionListener(e -> {
+        disablePaintBtn = new JButton("Zruš výběr");
+        disablePaintBtn.setVisible(false);
+        makeSegmentBtn = new JButton("Úsečka");
+        makeSegmentBtn.addActionListener(e -> {
             setProperties(Segment.class);
         });
 
-        makeRectangle = new JButton("Čtverec");
-        makeRectangle.addActionListener(e -> {
+        makeRectangleBtn = new JButton("Čtverec");
+        makeRectangleBtn.addActionListener(e -> {
             setProperties(Rectangle.class);
         });
 
-        makeElipse = new JButton("Elipsa");
-        makeElipse.addActionListener(e -> {
+        makeElipseBtn = new JButton("Elipsa");
+        makeElipseBtn.addActionListener(e -> {
             setProperties(Elipse.class);
         });
-        disablePaint.addActionListener(e -> {
+        disablePaintBtn.addActionListener(e -> {
             graphicPanel.setNewElement(null);
             properties.setModel(new DefaultTableModel());
-            disablePaint.setVisible(false);
+            disablePaintBtn.setVisible(false);
         });
 
         toolbar = new JPanel();
@@ -167,10 +168,10 @@ public class MainFrame extends JFrame {
         grapgicTools.setOrientation(SwingConstants.VERTICAL);
         grapgicTools.setPreferredSize(new Dimension(200, 100));
 
-        toolbar.add(makeSegment);
-        toolbar.add(makeRectangle);
-        toolbar.add(makeElipse);
-        toolbar.add(disablePaint);
+        toolbar.add(makeSegmentBtn);
+        toolbar.add(makeRectangleBtn);
+        toolbar.add(makeElipseBtn);
+        toolbar.add(disablePaintBtn);
 
         grapgicTools.add(toolbar, BorderLayout.CENTER);
         grapgicTools.add(toolbarTable, BorderLayout.SOUTH);
@@ -227,6 +228,6 @@ public class MainFrame extends JFrame {
         }
         properties.setModel(propertiesData);
         graphicPanel.setPaint(element, propertiesData);
-        disablePaint.setVisible(true);
+        disablePaintBtn.setVisible(true);
     }
 }

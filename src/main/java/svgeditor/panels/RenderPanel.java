@@ -71,6 +71,7 @@ public class RenderPanel extends JPanel {
                             Elipse elipse = new Elipse(Math.min(startPoint.x, endPoint.x), Math.min(startPoint.y, endPoint.y), width, height, propertiesData.getWidth(), propertiesData.getColor());
                             render.addValueToList(elipse);
                         }
+                        textArea.setData(render);
                         repaint();
                     }
                 }
