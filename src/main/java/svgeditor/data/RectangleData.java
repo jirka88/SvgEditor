@@ -117,7 +117,6 @@ public class RectangleData extends AbstractTableModel {
             }
             XmlUtils.isEdited = false;
             textArea.setData(dataList);
-            panel.repaint();
         }
     }
 }

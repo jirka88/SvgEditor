@@ -104,7 +104,6 @@ public class SegmentData extends AbstractTableModel {
             }
             XmlUtils.isEdited = false;
             textArea.setData(dataList);
-            panel.repaint();
         }
     }
 }

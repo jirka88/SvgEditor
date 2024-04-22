@@ -20,13 +20,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.awt.event.*;
+import java.io.*;
+import java.util.Scanner;
 
 public class MainFrame extends JFrame {
     private final JPanel mainPanel;
@@ -40,7 +36,7 @@ public class MainFrame extends JFrame {
     private final JButton makeElipseBtn;
     private final JButton disablePaintBtn;
     private final JButton exportBtn;
-    //private final JButton importBtn;
+    private final JButton importBtn;
     private final JButton disabledXmlBtn;
     private final JComboBox<String> importSvg;
     private final JPanel toolbar;
@@ -51,6 +47,8 @@ public class MainFrame extends JFrame {
     private int selectedIndex = 0;
     private final JTable tableGraphics;
     private final String[] choices = {"do XML", "do JSON"};
+    private Scanner sc = null;
+    private String file = "";
     private boolean disabled = false;
 
     public MainFrame() {
@@ -67,6 +65,31 @@ public class MainFrame extends JFrame {
         TextArea XML = new TextArea(data);
 
         //IMPORT - EXPORT a DISABLED XML
+        importBtn = new JButton("Import");
+        importBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("XML", "xml");
+                fileChooser.setFileFilter(filter);
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    file = "";
+                    try {
+                        sc = new Scanner(selectedFile);
+                        while (sc.hasNextLine()) {
+                            file += sc.nextLine();
+                        }
+                        data.setPaintList(XmlUtils.getImage(file));
+                        XML.setText(XmlUtils.getXml(data));
+
+                    } catch (FileNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        });
         disabledXmlBtn = new JButton("Vypnout XML");
         disabledXmlBtn.addActionListener(new ActionListener() {
             @Override
@@ -93,30 +116,29 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int userSelection = fileChooser.showSaveDialog(graphicPanel);
 
-                    if (userSelection == JFileChooser.APPROVE_OPTION) {
-                        File fileToSave = fileChooser.getSelectedFile();
-                        String fileName = fileToSave.getName();
-                        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+                if (userSelection == JFileChooser.APPROVE_OPTION) {
+                    File fileToSave = fileChooser.getSelectedFile();
+                    String fileName = fileToSave.getName();
+                    String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-                        if(!extension.equalsIgnoreCase("xml") && !extension.equalsIgnoreCase("json")) {
-                            JOptionPane.showMessageDialog(null, "Špatný formát!");
-                            return;
+                    if (!extension.equalsIgnoreCase("xml") && !extension.equalsIgnoreCase("json")) {
+                        JOptionPane.showMessageDialog(null, "Špatný formát!");
+                        return;
+                    }
+                    try {
+                        FileWriter myWriter = new FileWriter(fileToSave.getAbsolutePath());
+                        if (selectedIndex == 0) {
+                            myWriter.write(XmlUtils.getXml(data));
+                        } else {
+                            myWriter.write(JsonUtils.getJson(data));
                         }
-                        try {
-                            FileWriter myWriter = new FileWriter(fileToSave.getAbsolutePath());
-                            if (selectedIndex == 0) {
-                                myWriter.write(XmlUtils.getXml(data));
-                            }
-                            else {
-                                myWriter.write(JsonUtils.getJson(data));
-                            }
-                            myWriter.close();
-                            JOptionPane.showMessageDialog(null, "Uloženo!");
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
-                        }
+                        myWriter.close();
+                        JOptionPane.showMessageDialog(null, "Uloženo!");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
                     }
                 }
+            }
         });
         importSvg = new JComboBox<String>(choices);
         importSvg.addItemListener(new ItemListener() {
@@ -127,6 +149,7 @@ public class MainFrame extends JFrame {
         saving.add(disabledXmlBtn);
         saving.add(exportBtn);
         saving.add(importSvg);
+        saving.add(importBtn);
 
         toolbarTable = new JPanel();
         toolbarTable.setLayout(new FlowLayout());
@@ -190,17 +213,12 @@ public class MainFrame extends JFrame {
         XML.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                tableGraphics.setModel(new DefaultTableModel());
-                Render d = XmlUtils.getImage(XML.getText());
-                data.setPaintList(d);
-                tableAllGraphics.setModel(new GraphicsData(data));
-                graphicPanel.repaint();
+                setXml(data, XML);
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-//                graphicPanel.setRender(XmlUtils.getImage(XML.getText()));
-//                graphicPanel.repaint();
+                //setXml(data, XML);
             }
 
             @Override
@@ -229,5 +247,15 @@ public class MainFrame extends JFrame {
         properties.setModel(propertiesData);
         graphicPanel.setPaint(element, propertiesData);
         disablePaintBtn.setVisible(true);
+    }
+
+    private void setXml(Render data, TextArea XML) {
+        if(XML.getText() != "") {
+            tableGraphics.setModel(new DefaultTableModel());
+            Render image = XmlUtils.getImage(XML.getText());
+            data.setPaintList(image);
+            tableAllGraphics.setModel(new GraphicsData(data));
+            graphicPanel.repaint();
+        }
     }
 }

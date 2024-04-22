@@ -112,7 +112,6 @@ public class ElipseData extends AbstractTableModel {
             }
             XmlUtils.isEdited = false;
             textArea.setData(dataList);
-            panel.repaint();
         }
     }
 }
