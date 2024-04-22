@@ -1,4 +1,6 @@
 package svgeditor;
+
+import svgeditor.Utils.JsonUtils;
 import svgeditor.Utils.XmlUtils;
 import svgeditor.components.TextArea;
 import svgeditor.data.GraphicsData;
@@ -15,6 +17,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -48,6 +51,7 @@ public class MainFrame extends JFrame {
     private final JTable tableGraphics;
     private final String[] choices = {"do XML", "do JSON"};
     private boolean disabled = false;
+
     public MainFrame() {
         //SET WINDOW
         setTitle("SvgEditor");
@@ -66,12 +70,11 @@ public class MainFrame extends JFrame {
         disabledXml.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!disabled) {
+                if (!disabled) {
                     bottomPanel.setVisible(disabled);
                     disabledXml.setText("Zapnout XML");
                     disabled = true;
-                }
-                else {
+                } else {
                     bottomPanel.setVisible(disabled);
                     disabledXml.setText("Vypnout XML");
                     disabled = false;
@@ -81,27 +84,38 @@ public class MainFrame extends JFrame {
         saving = new JPanel();
         saving.setBackground(Color.WHITE);
         importBtn = new JButton("Import");
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("XML OR JSON", "xml", "json");
+        fileChooser.setFileFilter(filter);
         importBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                File outputFolder = new File("output");
-                if (!outputFolder.exists()) {
-                    outputFolder.mkdirs();
-                }
-                if(selectedIndex == 0) {
-                    try {
-                        FileWriter myWriter = new FileWriter("output/data.xml");
-                        myWriter.write(XmlUtils.getXml(data));
-                        myWriter.close();
-                        JOptionPane.showMessageDialog(null,"Uloženo!");
-                    } catch (IOException ex) {
-                           throw new RuntimeException(ex);
+                int userSelection = fileChooser.showSaveDialog(graphicPanel);
+
+                    if (userSelection == JFileChooser.APPROVE_OPTION) {
+                        File fileToSave = fileChooser.getSelectedFile();
+                        String fileName = fileToSave.getName();
+                        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+                        if(!extension.equalsIgnoreCase("xml") && !extension.equalsIgnoreCase("json")) {
+                            JOptionPane.showMessageDialog(null, "Špatný formát!");
+                            return;
+                        }
+                        try {
+                            FileWriter myWriter = new FileWriter(fileToSave.getAbsolutePath());
+                            if (selectedIndex == 0) {
+                                myWriter.write(XmlUtils.getXml(data));
+                            }
+                            else {
+                                myWriter.write(JsonUtils.getJson(data));
+                            }
+                            myWriter.close();
+                            JOptionPane.showMessageDialog(null, "Uloženo!");
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 }
-                else {
-
-                }
-            }
         });
         importSvg = new JComboBox<String>(choices);
         importSvg.addItemListener(new ItemListener() {
@@ -120,7 +134,7 @@ public class MainFrame extends JFrame {
         grapgicTools = new JToolBar();
         grapgicTools.setBorder(new TitledBorder(new EtchedBorder(), "Nástroje"));
         grapgicTools.setOrientation(SwingConstants.VERTICAL);
-        grapgicTools.setPreferredSize(new Dimension(200,  100));
+        grapgicTools.setPreferredSize(new Dimension(200, 100));
         graphicPanel = new RenderPanel(data, XML);
 
         tableAllGraphics = new TableAllGraphics(data, graphicPanel, tableGraphics, XML);
@@ -149,9 +163,9 @@ public class MainFrame extends JFrame {
         });
 
         toolbar = new JPanel();
-        toolbar.setLayout(new GridLayout(5,1));
+        toolbar.setLayout(new GridLayout(5, 1));
         grapgicTools.setOrientation(SwingConstants.VERTICAL);
-        grapgicTools.setPreferredSize(new Dimension(200,  100));
+        grapgicTools.setPreferredSize(new Dimension(200, 100));
 
         toolbar.add(makeSegment);
         toolbar.add(makeRectangle);
@@ -165,7 +179,7 @@ public class MainFrame extends JFrame {
         mainPanel.setLayout(new BorderLayout());
 
         leftPanel = new JPanel();
-        leftPanel.setLayout(new GridLayout(2,1));
+        leftPanel.setLayout(new GridLayout(2, 1));
         leftPanel.add(new JScrollPane(tableAllGraphics));
         leftPanel.add(tableGraphics);
 
@@ -193,7 +207,7 @@ public class MainFrame extends JFrame {
 
             }
         });
-        bottomPanel.setLayout(new GridLayout(1,1));
+        bottomPanel.setLayout(new GridLayout(1, 1));
         bottomPanel.add(new JScrollPane(XML));
 
         //ADDING PANELS TO MAINPANEL
@@ -204,10 +218,11 @@ public class MainFrame extends JFrame {
         mainPanel.add(saving, BorderLayout.NORTH);
         add(mainPanel);
     }
+
     private void setProperties(Class<?> element) {
         tableGraphics.setModel(new DefaultTableModel());
         propertiesData = new PropertiesData();
-        if(element.getSimpleName().equals("Segment")) {
+        if (element.getSimpleName().equals("Segment")) {
             propertiesData = new PropertiesData(new Segment());
         }
         properties.setModel(propertiesData);
