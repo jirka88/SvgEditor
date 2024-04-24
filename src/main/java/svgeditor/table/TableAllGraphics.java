@@ -38,7 +38,7 @@ public class TableAllGraphics extends JTable {
             if(selectedRow != -1) {
                 switch (data.getList().get(selectedRow).getClass().getSimpleName().toLowerCase()) {
                     case "rectangle":
-                        tableGraphics.setModel(new RectangleData((Rectangle) data.getList().get(selectedRow), graphicPanel, textArea, data));
+                        tableGraphics.setModel(new RectangleData((Rectangle) data.getList().get(selectedRow),textArea, data));
                         break;
                     case "elipse":
                         tableGraphics.setModel(new ElipseData((Elipse) data.getList().get(selectedRow), graphicPanel, textArea, data));

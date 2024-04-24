@@ -16,7 +16,6 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class RectangleData extends AbstractTableModel {
     private Rectangle data;
-    private RenderPanel panel;
     private final String[] columnNames = {"Index", "Tvar"};
     private TextArea textArea;
     private Render dataList;
@@ -24,11 +23,9 @@ public class RectangleData extends AbstractTableModel {
     /**
      * Vytvoří tabulka s daty
      * @param data
-     * @param panel
      */
-    public RectangleData(Rectangle data, RenderPanel panel, TextArea textArea, Render dataList) {
+    public RectangleData(Rectangle data, TextArea textArea, Render dataList) {
         this.data = data;
-        this.panel = panel;
         this.textArea = textArea;
         this.dataList = dataList;
     }

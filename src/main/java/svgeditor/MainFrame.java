@@ -218,7 +218,7 @@ public class MainFrame extends JFrame {
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                //setXml(data, XML);
+                setXml(data, XML);
             }
 
             @Override
@@ -250,7 +250,7 @@ public class MainFrame extends JFrame {
     }
 
     private void setXml(Render data, TextArea XML) {
-        if(XML.getText() != "") {
+        if(!XML.getText().equals("")) {
             tableGraphics.setModel(new DefaultTableModel());
             Render image = XmlUtils.getImage(XML.getText());
             data.setPaintList(image);
