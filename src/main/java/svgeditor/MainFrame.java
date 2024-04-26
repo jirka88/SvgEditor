@@ -19,6 +19,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -151,6 +153,8 @@ public class MainFrame extends JFrame {
         saving.add(importSvg);
         saving.add(importBtn);
 
+        //Nástroje
+
         toolbarTable = new JPanel();
         toolbarTable.setLayout(new FlowLayout());
         properties = new JTable();
@@ -223,7 +227,7 @@ public class MainFrame extends JFrame {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-
+                setXml(data, XML);
             }
         });
         bottomPanel.setLayout(new GridLayout(1, 1));
@@ -251,11 +255,16 @@ public class MainFrame extends JFrame {
 
     private void setXml(Render data, TextArea XML) {
         if(!XML.getText().equals("")) {
-            tableGraphics.setModel(new DefaultTableModel());
-            Render image = XmlUtils.getImage(XML.getText());
-            data.setPaintList(image);
-            tableAllGraphics.setModel(new GraphicsData(data));
-            graphicPanel.repaint();
+            try {
+                tableGraphics.setModel(new DefaultTableModel());
+                Render image = XmlUtils.getImage(XML.getText());
+                data.setPaintList(image);
+                tableAllGraphics.setModel(new GraphicsData(data));
+                graphicPanel.repaint();
+            }
+            catch(Exception ex) {
+                JOptionPane.showMessageDialog(null, "Nastala chyba při editaci!");
+            }
         }
     }
 }

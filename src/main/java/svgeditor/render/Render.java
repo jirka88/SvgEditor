@@ -19,9 +19,9 @@ public class Render {
      * přidání hodnot do listu
      */
     public Render() {
-        list.add(new Rectangle(0, 0, 300, 400, 50, "#5f55ff"));
-        list.add(new Elipse(100,100,400,400,50, "#5f55ff"));
-        list.add(new Segment(100,100,200,200, 500, "#123456"));
+//        list.add(new Rectangle(0, 0, 300, 400, 50, "#5f55ff"));
+//        list.add(new Elipse(100,100,400,400,50, "#5f55ff"));
+//        list.add(new Segment(100,100,200,200, 500, "#123456"));
     }
 
     @XmlElementWrapper(name="g")

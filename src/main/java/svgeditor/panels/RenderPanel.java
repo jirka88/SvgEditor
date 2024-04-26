@@ -72,6 +72,7 @@ public class RenderPanel extends JPanel {
                             render.addValueToList(elipse);
                         }
                         textArea.setData(render);
+                        startPoint = null;
                         repaint();
                     }
                 }
